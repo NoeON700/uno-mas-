@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tarjeta UNO MÁS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#A8843F;--gold-d:#7A5E26;--brown:#3B2A17;--cream:#F5ECD7;--sand:#E8D9B5;--night:#1A140D}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Inter,system-ui,sans-serif;color:#fff;background:var(--night);min-height:100vh}
+.bgfix{position:fixed;inset:0;z-index:-2;background:var(--night) url(img/fondo.jpg) center 72%/cover no-repeat}
+.bgfix::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,20,13,.15) 0%,rgba(26,20,13,.55) 45%,rgba(26,20,13,.78) 100%)}
+.bubbles{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.bubbles span{position:absolute;bottom:-120px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.55),rgba(255,240,210,.12) 45%,rgba(255,255,255,.04) 70%);border:1px solid rgba(255,255,255,.28);animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) translateX(0)}50%{transform:translateY(-55vh) translateX(18px)}100%{transform:translateY(-115vh) translateX(-12px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.bubbles span{animation:none;display:none}}
+.wrap{max-width:520px;margin:0 auto;padding:0 18px 56px}
+.hero{margin:0 -18px;position:relative}
+.hero img{display:block;width:100%;height:auto;-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 100%);mask-image:linear-gradient(180deg,#000 70%,transparent 100%)}
+.steps{display:flex;justify-content:center;gap:8px;margin:6px 0 16px}
+.steps i{width:34px;height:6px;border-radius:6px;background:rgba(255,255,255,.3)}
+.steps i.on{background:var(--sand)}
+h1{font-family:"Caveat Brush",cursive;font-weight:400;font-size:46px;line-height:1;margin:6px 0 6px;text-align:center;color:var(--sand);text-shadow:0 2px 16px rgba(0,0,0,.5)}
+.lead{text-align:center;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:20px;line-height:1.35;margin:0 0 18px;color:#F8EFDC;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.bubble{position:relative;background:rgba(255,248,232,.14);border:1px solid rgba(255,255,255,.38);border-radius:28px;padding:18px 18px 16px;margin:0 0 14px;backdrop-filter:blur(14px) saturate(1.2);-webkit-backdrop-filter:blur(14px) saturate(1.2);box-shadow:0 10px 30px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.35);animation:float 6s ease-in-out infinite}
+.bubble:nth-of-type(2n){animation-delay:-2s}.bubble:nth-of-type(3n){animation-delay:-4s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){.bubble{animation:none}}
+.bubble::before{content:"";position:absolute;top:8px;left:22px;width:56px;height:12px;border-radius:50%;background:rgba(255,255,255,.28);filter:blur(1px)}
+.lbl{display:block;font-family:"Cormorant Garamond",serif;font-weight:700;font-size:21px;margin:0 0 4px;color:#FFF7E6}
+.hint{font-size:13.5px;color:#EADDBE;margin:0 0 10px;line-height:1.45}
+.letter{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--gold-d);color:#fff;font-family:"Cormorant Garamond",serif;font-weight:700;font-size:20px;margin-right:10px;flex:none}
+.amar-h{display:flex;align-items:center}
+input[type=text],input[type=tel],input[type=date],textarea{width:100%;font:500 16px Inter,sans-serif;color:var(--brown);background:rgba(255,251,242,.9);border:1.5px solid rgba(255,255,255,.7);border-radius:16px;padding:13px 14px;min-height:50px;outline:none}
+input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(168,132,63,.35)}
+textarea{min-height:110px;resize:vertical;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:rgba(255,251,242,.18);border:1.5px solid rgba(255,255,255,.55);font-weight:600;font-size:15px;color:#fff}
+.chip input:checked+span{background:var(--sand);color:var(--brown);border-color:var(--sand)}
+.chip input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:15.5px;line-height:1.4;cursor:pointer}
+.check input{width:24px;height:24px;margin:1px 0 0;accent-color:var(--gold-d);flex:none}
+.mt{margin-top:10px}
+.count{font-size:12px;color:#E2D3B0;text-align:right;margin-top:4px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;border:0;border-radius:999px;background:linear-gradient(180deg,#8A6B2E,#6E5322);color:#fff;font:700 17px Inter,sans-serif;letter-spacing:.02em;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.25);margin-top:6px}
+.btn:disabled{opacity:.55;cursor:default}
+.btn2{background:rgba(255,248,232,.14);border:1.5px solid rgba(255,255,255,.5);box-shadow:none;font-size:15px;min-height:50px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.err{color:#FFD9C2;font-size:14px;min-height:1em;margin:8px 4px 0;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.verse{text-align:center;font-family:"Cormorant Garamond",serif;font-style:italic;font-size:19px;color:#F3E6C8;margin:22px 8px 0;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.verse b{display:block;font-style:normal;font-size:14px;letter-spacing:.14em;margin-top:6px;color:var(--sand)}
+.preview{border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.5);margin:4px 0 16px;background:var(--cream)}
+canvas{display:block;width:100%;height:auto}
+.stack{display:flex;flex-direction:column;gap:10px}
+.msg{font-size:14.5px;min-height:1em;margin:0;text-align:center;color:#F8EFDC}
+.imgout{display:none}.imgout img{width:100%;border-radius:14px;margin-top:6px}
+[hidden]{display:none!important}
+#printimg{display:none}
+@media print{@page{size:letter;margin:0}body{background:#fff}body>*{display:none!important}#printimg{display:block!important;width:100%;height:auto}}
+</style>
+</head>
+<body>
+<div class="bgfix" aria-hidden="true"></div>
+<div class="bubbles" aria-hidden="true" id="bubbles"></div>
+<main class="wrap">
+<div class="hero"><img src="img/fondo.jpg" alt="Dejó las 99 para ir por mí: Jesús abrazando una oveja al atardecer"></div>
+
+<section id="s1">
+<div class="steps" aria-label="Paso 1 de 2"><i class="on"></i><i></i></div>
+<h1>Regístrate</h1>
+<p class="lead">Vamos por uno más</p>
+<form id="f1" novalidate>
+<div class="bubble"><label class="lbl" for="nombre">Nombre completo</label>
+<input type="text" id="nombre" autocomplete="name" maxlength="40" placeholder="Tu nombre y apellido"></div>
+<div class="bubble"><label class="lbl" for="tel">Teléfono</label>
+<input type="tel" id="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="Ej. 646 123 4567"></div>
+<div class="bubble"><label class="lbl" for="iglesia">Iglesia</label>
+<input type="text" id="iglesia" maxlength="40" placeholder="Nombre de tu iglesia"></div>
+<button class="btn" type="submit">Continuar</button>
+<p class="err" id="e1" role="alert"></p>
+</form>
+</section>
+
+<section id="s2" hidden>
+<div class="steps" aria-label="Paso 2 de 2"><i class="on"></i><i class="on"></i></div>
+<h1>Tarjeta “UNO MÁS”</h1>
+<p class="lead">No tengo que ganar a todos. Solo amar a uno más.</p>
+<form id="f2" novalidate>
+<div class="bubble"><label class="lbl" for="uno">Mi Uno Más es:</label>
+<p class="hint">Escribe su nombre. Dios conoce su historia.</p>
+<input type="text" id="uno" maxlength="40" placeholder="Su nombre"></div>
+
+<div class="bubble"><span class="lbl" id="lv">Lo veo en:</span>
+<p class="hint">Puedes elegir más de uno.</p>
+<div class="chips" role="group" aria-labelledby="lv">
+<label class="chip"><input type="checkbox" name="lugar" value="Casa"><span>Casa</span></label>
+<label class="chip"><input type="checkbox" name="lugar" value="Trabajo"><span>Trabajo</span></label>
+<label class="chip"><input type="checkbox" name="lugar" value="Escuela"><span>Escuela</span></label>
+<label class="chip"><input type="checkbox" name="lugar" value="Vecindario"><span>Vecindario</span></label>
+<label class="chip"><input type="checkbox" name="lugar" value="Otro" id="otroChk"><span>Otro</span></label>
+</div>
+<div id="otroBox" class="mt" hidden><label class="hint" for="otro" style="display:block;margin:0 0 6px">¿Dónde?</label><input type="text" id="otro" maxlength="30" placeholder="Escribe el lugar"></div>
+</div>
+
+<div class="bubble"><label class="lbl" for="oracion">Mi oración por él/ella es:</label>
+<textarea id="oracion" maxlength="300" placeholder="Señor, te pido por…"></textarea>
+<div class="count" id="cnt">0 / 300</div></div>
+
+<div class="bubble"><span class="lbl">A.M.A.R. · Mi plan para amar a Uno Más</span>
+<p class="hint">Cuatro pasos sencillos para esta semana.</p>
+<div class="amar-h"><span class="letter" aria-hidden="true">A</span><span class="lbl" style="margin:0;font-size:19px">Atiende</span></div>
+<label class="check mt"><input type="checkbox" id="atiende"> Voy a escuchar a mi Uno Más esta semana.</label>
+<div class="amar-h mt" style="margin-top:16px"><span class="letter" aria-hidden="true">M</span><label class="lbl" style="margin:0;font-size:19px" for="pregunta">Muestra interés</label></div>
+<p class="hint mt" style="margin-bottom:6px">Le voy a preguntar:</p>
+<input type="text" id="pregunta" maxlength="80" placeholder="Ej. ¿Cómo estás de verdad?">
+<div class="amar-h" style="margin-top:16px"><span class="letter" aria-hidden="true">A</span><label class="lbl" style="margin:0;font-size:19px" for="invitar">Acércate</label></div>
+<p class="hint mt" style="margin-bottom:6px">Lo voy a invitar a:</p>
+<input type="text" id="invitar" maxlength="60" placeholder="Ej. un café, la iglesia, a comer">
+<div class="amar-h" style="margin-top:16px"><span class="letter" aria-hidden="true">R</span><label class="lbl" style="margin:0;font-size:19px" for="historia">Relata tu historia</label></div>
+<p class="hint mt" style="margin-bottom:6px">Le voy a contar cómo Dios me ayudó cuando:</p>
+<textarea id="historia" maxlength="160" style="min-height:90px" placeholder="Escribe un momento en que Dios te ayudó"></textarea>
+</div>
+
+<div class="bubble"><label class="lbl" for="fecha">Fecha en que lo haré:</label>
+<input type="date" id="fecha"></div>
+
+<div class="bubble"><span class="lbl">Mi compromiso</span>
+<label class="check mt"><input type="checkbox" id="compromiso"> <span>Acepto el compromiso de que mi “UNO MÁS”, <b id="unoName">(su nombre)</b>, esté presente en el campamento <b>JUMELI 2027 “Luz y vida”</b>.</span></label></div>
+
+<button class="btn" type="submit">Crear mi tarjeta</button>
+<button class="btn btn2" type="button" id="back1">Volver a mis datos</button>
+<p class="err" id="e2" role="alert"></p>
+</form>
+<p class="verse">“No tengo que ganar a todos. Solo amar a uno más.”<b>LUCAS 15:4</b></p>
+</section>
+
+<section id="s3" hidden>
+<h1>Tu tarjeta</h1>
+<p class="lead">Guárdala, imprímela y ora por tu Uno Más.</p>
+<div class="preview"><canvas id="card" width="1275" height="1650" role="img" aria-label="Tu Tarjeta UNO MÁS"></canvas></div>
+<div class="stack">
+<div id="saveErr" class="bubble" role="alert" hidden style="animation:none"><p class="msg" style="text-align:left;margin:0 0 10px">No pudimos guardar tu registro. Revisa tu conexión e inténtalo de nuevo.</p><button class="btn" id="retry" type="button" style="margin:0">Reintentar</button></div>
+<p class="msg" id="saveOk" role="status" hidden>Tu registro quedó guardado. ¡Gracias!</p>
+<button class="btn" id="dl" type="button">Descargar PDF</button>
+<button class="btn btn2" id="print" type="button">Imprimir</button>
+<p class="msg" id="m3" role="status" aria-live="polite"></p>
+<p class="msg" style="font-size:13px;color:#E2D3B0">Tamaño carta, lista para imprimir.</p>
+<button class="btn btn2" id="showimg" type="button">Guardar como imagen</button>
+<div class="imgout" id="imgout"><p class="msg">Mantén presionada la imagen para guardarla.</p><img id="img" alt="Tu Tarjeta UNO MÁS"></div>
+<button class="btn btn2" id="back2" type="button">Corregir mis respuestas</button>
+</div>
+</section>
+</main>
+<img id="printimg" alt="">
+
+<script>
+const HDR='img/encabezado.jpg',LOGO='img/logo.png';
+const SB_URL='https://tbifbcgyxggzeykbacsx.supabase.co',SB_KEY='sb_publishable_ZPGyKSvBUjPEcAUpXSlgjw_UUhBS7kw';
+const $=id=>document.getElementById(id);
+// bubbles
+(()=>{const b=$('bubbles');for(let i=0;i<16;i++){const s=document.createElement('span');const z=14+Math.random()*58;s.style.width=s.style.height=z+'px';s.style.left=(Math.random()*100)+'%';s.style.animationDuration=(12+Math.random()*16)+'s';s.style.animationDelay=(-Math.random()*20)+'s';b.appendChild(s);}})();
+
+function show(id){['s1','s2','s3'].forEach(k=>$(k).hidden=k!==id);window.scrollTo({top:0});}
+$('f1').addEventListener('submit',e=>{e.preventDefault();
+  if(!$('nombre').value.trim()){$('e1').textContent='Escribe tu nombre completo.';$('nombre').focus();return;}
+  if(!$('tel').value.trim()){$('e1').textContent='Escribe tu teléfono.';$('tel').focus();return;}
+  $('e1').textContent='';show('s2');});
+$('back1').addEventListener('click',()=>show('s1'));
+$('back2').addEventListener('click',()=>show('s2'));
+$('otroChk').addEventListener('change',()=>{$('otroBox').hidden=!$('otroChk').checked;});
+const syncUno=()=>{$('unoName').textContent=$('uno').value.trim()||'(su nombre)';};$('uno').addEventListener('input',syncUno);
+$('oracion').addEventListener('input',()=>$('cnt').textContent=$('oracion').value.length+' / 300');
+$('f2').addEventListener('submit',async e=>{e.preventDefault();
+  if(!$('uno').value.trim()){$('e2').textContent='Escribe el nombre de tu Uno Más.';$('uno').focus();return;}
+  if(!$('oracion').value.trim()){$('e2').textContent='Escribe tu oración por él o ella.';$('oracion').focus();return;}
+  if(!$('compromiso').checked){$('e2').textContent='Marca la casilla de tu compromiso para continuar.';$('compromiso').focus();return;}
+  $('e2').textContent='';
+  const btn=e.submitter||document.querySelector('#f2 .btn[type=submit]');btn.disabled=true;const old=btn.textContent;btn.textContent='Guardando…';
+  const ok=await guardar();btn.disabled=false;btn.textContent=old;
+  show('s3');await fontsReady;await imgsReady;draw();});
+let enviado=false;
+function datos(){const v=id=>$(id).value.trim()||null;
+  const lug=[...document.querySelectorAll('input[name=lugar]:checked')].map(i=>i.value);
+  return{nombre:v('nombre'),telefono:v('tel'),iglesia:v('iglesia'),uno_mas:v('uno'),lugares:lug,lugar_otro:lug.includes('Otro')?v('otro'):null,oracion:v('oracion'),atiende:$('atiende').checked,pregunta:v('pregunta'),invitar:v('invitar'),historia:v('historia'),fecha_compromiso:$('fecha').value||null,acepta_compromiso:true};}
+async function guardar(){
+  if(enviado){$('saveErr').hidden=true;$('saveOk').hidden=false;return true;}
+  try{const r=await fetch(SB_URL+'/rest/v1/registros',{method:'POST',headers:{'apikey':SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(datos())});
+    if(!r.ok)throw new Error('HTTP '+r.status);enviado=true;$('saveErr').hidden=true;$('saveOk').hidden=false;return true;
+  }catch(err){console.error(err);$('saveErr').hidden=false;$('saveOk').hidden=true;return false;}}
+$('retry').addEventListener('click',async()=>{$('retry').disabled=true;$('retry').textContent='Guardando…';await guardar();$('retry').disabled=false;$('retry').textContent='Reintentar';});
+['nombre','tel','iglesia','uno','otro','oracion','pregunta','invitar','historia','fecha'].forEach(id=>$(id).addEventListener('input',()=>{enviado=false;}));
+document.querySelectorAll('#f2 input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>{enviado=false;}));
+
+// ---------- card drawing ----------
+const cv=$('card'),ctx=cv.getContext('2d');const W=1275,H=1650;
+const C={gold:'#A8843F',goldd:'#7A5E26',brown:'#3B2A17',cream:'#F5ECD7',sand:'#E8D9B5',night:'#1A140D'};
+const hdr=new Image(),logo=new Image();
+const imgsReady=Promise.all([new Promise(r=>{hdr.onload=r;hdr.onerror=r;hdr.src=HDR}),new Promise(r=>{logo.onload=r;logo.onerror=r;logo.src=LOGO})]);
+const fontsReady=Promise.all(['40px "Caveat Brush"','600 40px "Cormorant Garamond"','700 40px "Cormorant Garamond"','italic 500 40px "Cormorant Garamond"','600 30px Inter','500 30px Inter'].map(f=>document.fonts.load(f))).catch(()=>{});
+function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function wrap(t,maxW){const out=[];for(const p of String(t).split(/\n/)){let l='';for(const w of p.split(/\s+/).filter(Boolean)){const tt=l?l+' '+w:w;if(ctx.measureText(tt).width>maxW&&l){out.push(l);l=w;}else l=tt;}out.push(l);}return out.filter((x,i,a)=>x||a.length===1);}
+function fitText(t,font,size,maxW,maxH,lhF,min){for(let s=size;s>=min;s-=1){ctx.font=font.replace('{s}',s);const ls=wrap(t,maxW);if(ls.length*s*lhF<=maxH)return{ls,s};}ctx.font=font.replace('{s}',min);let ls=wrap(t,maxW);const max=Math.max(1,Math.floor(maxH/(min*lhF)));if(ls.length>max){ls=ls.slice(0,max);ls[max-1]=ls[max-1].replace(/\s*\S*$/,'')+'…';}return{ls,s:min};}
+function label(t,x,y){ctx.fillStyle=C.goldd;ctx.font='700 21px Inter, sans-serif';try{ctx.letterSpacing='3px'}catch(e){}ctx.textAlign='left';ctx.fillText(t.toUpperCase(),x,y);try{ctx.letterSpacing='0px'}catch(e){}}
+function fmtDate(v){if(!v)return'';const[y,m,d]=v.split('-').map(Number);const ms=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];return d+' de '+ms[m-1]+' de '+y;}
+function cross(x,y,s,col){ctx.fillStyle=col;ctx.fillRect(x-s*0.09,y-s*0.5,s*0.18,s);ctx.fillRect(x-s*0.32,y-s*0.24,s*0.64,s*0.16);}
+function divider(y){ctx.strokeStyle='rgba(168,132,63,.45)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(110,y);ctx.lineTo(W/2-34,y);ctx.moveTo(W/2+34,y);ctx.lineTo(W-110,y);ctx.stroke();cross(W/2,y,30,C.gold);}
+
+function draw(){
+  const v=id=>$(id).value.trim();
+  const lugares=[...document.querySelectorAll('input[name=lugar]:checked')].map(i=>i.value==='Otro'?(v('otro')||'Otro'):i.value);
+  ctx.clearRect(0,0,W,H);
+  // parchment
+  let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#F8F0DD');g.addColorStop(1,'#EFE2C4');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // header photo
+  const hh=470;
+  if(hdr.width){const s=Math.max(W/hdr.width,hh/hdr.height);const iw=hdr.width*s,ih=hdr.height*s;ctx.drawImage(hdr,(W-iw)/2,(hh-ih)*0.55,iw,ih);}
+  g=ctx.createLinearGradient(0,hh-210,0,hh);g.addColorStop(0,'rgba(248,240,221,0)');g.addColorStop(1,'rgba(248,240,221,1)');ctx.fillStyle=g;ctx.fillRect(0,hh-210,W,210);
+  g=ctx.createLinearGradient(0,0,0,170);g.addColorStop(0,'rgba(26,20,13,.45)');g.addColorStop(1,'rgba(26,20,13,0)');ctx.fillStyle=g;ctx.fillRect(0,0,W,170);
+  if(logo.width){const lh=110,lw=logo.width*lh/logo.height;ctx.drawImage(logo,56,40,lw,lh);}
+  ctx.textAlign='right';ctx.fillStyle='#FFF7E6';ctx.font='600 22px Inter, sans-serif';try{ctx.letterSpacing='3px'}catch(e){}
+  ctx.fillText('TARJETA',W-60,78);try{ctx.letterSpacing='0px'}catch(e){}
+  ctx.save();ctx.shadowColor='rgba(0,0,0,.45)';ctx.shadowBlur=18;ctx.font='92px "Caveat Brush", cursive';ctx.fillText('UNO MÁS',W-56,160);ctx.restore();
+  // owner line
+  ctx.textAlign='center';ctx.fillStyle=C.brown;
+  const owner=v('nombre')+(v('iglesia')?'  ·  '+v('iglesia'):'');
+  let s=34;ctx.font='600 '+s+'px "Cormorant Garamond", serif';while(ctx.measureText(owner).width>W-200&&s>22){s--;ctx.font='600 '+s+'px "Cormorant Garamond", serif';}
+  ctx.fillText(owner,W/2,500);
+  divider(540);
+  const L=110,R=W-110,CW=R-L;
+  // Mi Uno Más
+  label('Mi Uno Más es',L,600);
+  ctx.fillStyle=C.brown;s=60;ctx.font='64px "Caveat Brush", cursive';s=64;while(ctx.measureText(v('uno')).width>CW&&s>30){s-=2;ctx.font=s+'px "Caveat Brush", cursive';}
+  ctx.textAlign='left';ctx.fillText(v('uno'),L,668);
+  ctx.font='italic 500 24px "Cormorant Garamond", serif';ctx.fillStyle=C.goldd;ctx.fillText('Dios conoce su historia.',L,704);
+  // Lo veo en
+  label('Lo veo en',L+640,600);
+  ctx.fillStyle=C.brown;const lv=lugares.length?lugares.join(' · '):'—';
+  const r1=fitText(lv,'600 {s}px "Cormorant Garamond", serif',34,CW-640,100,1.2,22);r1.ls.forEach((l,i)=>ctx.fillText(l,L+640,646+i*r1.s*1.2));
+  // Oración
+  const oy=740,oh=250;
+  ctx.fillStyle='rgba(255,252,244,.85)';rr(L-20,oy,CW+40,oh,26);ctx.fill();ctx.strokeStyle='rgba(168,132,63,.4)';ctx.lineWidth=2;rr(L-20,oy,CW+40,oh,26);ctx.stroke();
+  label('Mi oración por él/ella',L+14,oy+48);
+  ctx.fillStyle=C.brown;const r2=fitText(v('oracion'),'italic 500 {s}px "Cormorant Garamond", serif',38,CW-28,oh-90,1.3,20);
+  r2.ls.forEach((l,i)=>ctx.fillText(l,L+14,oy+100+i*r2.s*1.3));
+  // AMAR
+  const ay=1040;
+  ctx.textAlign='left';ctx.fillStyle=C.brown;ctx.font='700 36px "Cormorant Garamond", serif';ctx.fillText('A.M.A.R. — Mi plan para amar a Uno Más',L,ay);
+  const items=[
+    ['A','Atiende',$('atiende').checked?'✓ Voy a escuchar a mi Uno Más esta semana.':'Voy a escuchar a mi Uno Más esta semana.'],
+    ['M','Muestra interés','Le voy a preguntar: '+(v('pregunta')||'—')],
+    ['A','Acércate','Lo voy a invitar a: '+(v('invitar')||'—')],
+    ['R','Relata tu historia','Le voy a contar cómo Dios me ayudó cuando: '+(v('historia')||'—')]];
+  let y=ay+36;
+  items.forEach(([k,t,txt],i)=>{
+    const rowH=i===3?108:66;
+    ctx.fillStyle=C.goldd;ctx.beginPath();ctx.arc(L+24,y+30,24,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='700 28px "Cormorant Garamond", serif';ctx.fillText(k,L+24,y+40);
+    ctx.textAlign='left';ctx.fillStyle=C.goldd;ctx.font='700 22px Inter, sans-serif';ctx.fillText(t,L+68,y+26);
+    ctx.fillStyle=C.brown;const r=fitText(txt,'500 {s}px Inter, sans-serif',24,CW-70,rowH-34,1.3,16);
+    r.ls.forEach((l,j)=>ctx.fillText(l,L+68,y+56+j*r.s*1.3));
+    y+=rowH;
+  });
+  // fecha
+  y+=14;label('Fecha en que lo haré',L,y);ctx.fillStyle=C.brown;ctx.font='600 32px "Cormorant Garamond", serif';ctx.fillText(fmtDate($('fecha').value)||'—',L+330,y+2);
+  // footer
+  // compromiso
+  const cy=y+30;
+  ctx.fillStyle='rgba(168,132,63,.14)';rr(L-20,cy,CW+40,84,22);ctx.fill();
+  ctx.strokeStyle=C.goldd;ctx.lineWidth=3;rr(L,cy+27,30,30,6);ctx.stroke();
+  if($('compromiso').checked){ctx.beginPath();ctx.moveTo(L+6,cy+42);ctx.lineTo(L+13,cy+50);ctx.lineTo(L+25,cy+34);ctx.stroke();}
+  ctx.fillStyle=C.brown;ctx.textAlign='left';
+  const ct='Acepto el compromiso de que mi “UNO MÁS”, '+(v('uno')||'—')+', esté presente en el campamento JUMELI 2027 “Luz y vida”.';
+  const r3=fitText(ct,'italic 600 {s}px "Cormorant Garamond", serif',29,CW-60,70,1.2,18);
+  const ty=cy+42-((r3.ls.length-1)*r3.s*1.2)/2+r3.s*0.35;
+  r3.ls.forEach((l,i)=>ctx.fillText(l,L+50,ty+i*r3.s*1.2));
+  divider(H-118);
+  ctx.textAlign='center';ctx.fillStyle=C.brown;ctx.font='italic 600 28px "Cormorant Garamond", serif';
+  ctx.fillText('“No tengo que ganar a todos. Solo amar a uno más.”  — Lucas 15:4',W/2,H-80);
+  ctx.textAlign='right';ctx.fillStyle=C.gold;ctx.font='46px "Caveat Brush", cursive';ctx.fillText('Él fue por las 99',W-80,H-34);
+  ctx.textAlign='left';ctx.fillStyle=C.goldd;ctx.font='600 20px Inter, sans-serif';ctx.fillText('Tel. '+v('tel'),80,H-40);
+}
+
+// ---------- PDF (letter, flattened image = read-only) ----------
+function makePDF(jpeg,iw,ih){const pw=612,ph=792,enc=new TextEncoder(),parts=[],offs=[];let len=0;
+  const push=b=>{if(typeof b==='string')b=enc.encode(b);parts.push(b);len+=b.length;};
+  push('%PDF-1.4\n');const content=`q ${pw} 0 0 ${ph} 0 0 cm /Im0 Do Q`;
+  const objs=['<< /Type /Catalog /Pages 2 0 R >>','<< /Type /Pages /Kids [3 0 R] /Count 1 >>',`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pw} ${ph}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>`,null,`<< /Length ${content.length} >>\nstream\n${content}\nendstream`];
+  objs.forEach((o,i)=>{offs[i]=len;push(`${i+1} 0 obj\n`);if(o===null){push(`<< /Type /XObject /Subtype /Image /Width ${iw} /Height ${ih} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`);push(jpeg);push('\nendstream');}else push(o);push('\nendobj\n');});
+  const xref=len;let x=`xref\n0 ${objs.length+1}\n0000000000 65535 f \n`;offs.forEach(o=>{x+=String(o).padStart(10,'0')+' 00000 n \n';});
+  push(x+`trailer\n<< /Size ${objs.length+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`);return new Blob(parts,{type:'application/pdf'});}
+const jpegOf=c=>new Promise(r=>c.toBlob(b=>b.arrayBuffer().then(a=>r(new Uint8Array(a))),'image/jpeg',0.93));
+const slug=t=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'');
+function bajar(blob,name){const a=document.createElement('a');const u=URL.createObjectURL(blob);a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);}
+const fname=ext=>'Tarjeta-UNO-MAS-'+(slug($('nombre').value.trim())||'mi-tarjeta')+'.'+ext;
+const showImg=()=>{$('img').src=cv.toDataURL('image/png');$('imgout').style.display='block';};
+$('showimg').addEventListener('click',async()=>{await fontsReady;await imgsReady;draw();showImg();cv.toBlob(b=>{try{bajar(b,fname('png'))}catch(e){}},'image/png');});
+$('dl').addEventListener('click',async()=>{
+  $('dl').disabled=true;$('m3').textContent='Preparando tu PDF…';
+  try{await fontsReady;await imgsReady;draw();bajar(makePDF(await jpegOf(cv),W,H),fname('pdf'));$('m3').textContent='Listo, revisa tus descargas.';}
+  catch(e){$('m3').textContent='No se pudo crear el PDF. Usa "Guardar como imagen".';showImg();}
+  finally{$('dl').disabled=false;}
+});
+$('print').addEventListener('click',async()=>{await fontsReady;await imgsReady;draw();const p=$('printimg');p.src=cv.toDataURL('image/png');p.onload=()=>window.print();});
+</script>
+</body>
+</html>
