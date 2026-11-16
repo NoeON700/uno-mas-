@@ -1,0 +1,27 @@
+{
+  "negocio": {
+    "nombre": "Barbería López", "etiqueta": "Barbería tradicional", "lema": "Cortes clásicos, estilo de hoy",
+    "descripcion": "Más de 10 años cuidando tu imagen. Agenda por WhatsApp o regístrate para tu primera visita.",
+    "whatsapp": "526461234567", "whatsappMensaje": "Hola, quiero agendar una cita.", "telefono": "646 123 4567",
+    "direccion": "Av. Reforma 123, Ensenada, B.C.",
+    "horario": [["Lunes a viernes", "10:00 – 20:00"], ["Sábado", "9:00 – 18:00"], ["Domingo", "Cerrado"]]
+  },
+  "tema": { "primario": "#C9A227", "fondo": "#111111", "texto": "#F5F1E8", "fuenteTitulos": "Playfair Display", "fuenteTexto": "Inter", "radio": 16 },
+  "modulos": { "pagina": true, "menu": false, "registro": true },
+  "servicios": { "titulo": "Servicios", "intro": "Precios desde. Pregunta por paquetes.", "lista": [
+    { "nombre": "Corte clásico", "descripcion": "Tijera o máquina, con lavado.", "precio": "$180" },
+    { "nombre": "Barba", "descripcion": "Perfilado con navaja y toalla caliente.", "precio": "$120" },
+    { "nombre": "Corte + barba", "descripcion": "El servicio completo.", "precio": "$270" } ] },
+  "registro": {
+    "titulo": "Regístrate", "intro": "Déjanos tus datos y recibe tu pase de primera visita.", "boton": "Registrarme",
+    "campos": [
+      { "id": "nombre", "etiqueta": "Nombre completo", "tipo": "texto", "requerido": true, "max": 80 },
+      { "id": "telefono", "etiqueta": "Teléfono (WhatsApp)", "tipo": "telefono", "requerido": true },
+      { "id": "servicio", "etiqueta": "¿Qué servicio te interesa?", "tipo": "opcion", "opciones": ["Corte clásico", "Barba", "Corte + barba"] },
+      { "id": "acepto", "etiqueta": "Acepto que me contacten por WhatsApp.", "tipo": "casilla", "requerido": true } ],
+    "privacidad": "Tus datos se usan solo para atenderte. No se comparten con terceros.",
+    "exitoTitulo": "¡Listo!", "exitoMensaje": "Guarda tu pase y preséntalo en tu visita.",
+    "boleto": { "activo": true, "titulo": "Pase de primera visita", "subtitulo": "10% de descuento en tu primer corte", "pie": "Presenta este pase en caja", "mostrar": ["servicio"] }
+  },
+  "supabase": { "url": "", "clave": "", "tabla": "registros" }
+}

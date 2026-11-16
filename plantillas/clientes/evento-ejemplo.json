@@ -1,0 +1,24 @@
+{
+  "negocio": {
+    "nombre": "Congreso Juvenil 2027", "etiqueta": "12 y 13 de marzo · Ensenada", "lema": "Dos días para crecer juntos",
+    "descripcion": "Regístrate y recibe tu boleto digital con código QR. Preséntalo en la entrada.",
+    "direccion": "Centro de Convenciones, Ensenada, B.C.",
+    "horario": [["Viernes 12", "17:00 – 21:00"], ["Sábado 13", "9:00 – 20:00"]]
+  },
+  "tema": { "primario": "#E1302F", "fondo": "#FFFFFF", "texto": "#141414", "fuenteTitulos": "Archivo", "fuenteTexto": "Inter", "radio": 18 },
+  "modulos": { "pagina": true, "menu": false, "registro": true },
+  "registro": {
+    "titulo": "Registro", "intro": "Un registro por persona.", "boton": "Obtener mi boleto",
+    "campos": [
+      { "id": "nombre", "etiqueta": "Nombre completo", "tipo": "texto", "requerido": true, "max": 80 },
+      { "id": "telefono", "etiqueta": "Teléfono", "tipo": "telefono", "requerido": true },
+      { "id": "email", "etiqueta": "Correo (opcional)", "tipo": "correo" },
+      { "id": "iglesia", "etiqueta": "Iglesia o grupo", "tipo": "texto", "max": 60 },
+      { "id": "talla", "etiqueta": "Talla de playera", "tipo": "opcion", "opciones": ["CH", "M", "G", "XG"] },
+      { "id": "dias", "etiqueta": "¿Qué días asistirás?", "tipo": "opciones", "opciones": ["Viernes", "Sábado"], "requerido": true } ],
+    "privacidad": "Usamos tus datos solo para organizar el evento.",
+    "exitoTitulo": "¡Nos vemos ahí!", "exitoMensaje": "Guarda tu boleto. Lo escanearemos en la entrada.",
+    "boleto": { "activo": true, "titulo": "Boleto de acceso", "subtitulo": "12 y 13 de marzo de 2027", "pie": "Acceso personal", "mostrar": ["iglesia", "dias", "talla"] }
+  },
+  "supabase": { "url": "", "clave": "", "tabla": "registros" }
+}

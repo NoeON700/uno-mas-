@@ -1,0 +1,28 @@
+{
+  "negocio": {
+    "nombre": "Nutrición Dra. Rivera", "etiqueta": "Consulta de nutrición", "lema": "Come mejor, sin dietas imposibles",
+    "descripcion": "Planes de alimentación a tu medida. Llena tu formulario antes de tu primera consulta.",
+    "whatsapp": "526461112233", "whatsappMensaje": "Hola, quiero agendar una consulta.",
+    "direccion": "Plaza Médica, consultorio 204, Ensenada, B.C.",
+    "horario": [["Lunes a viernes", "9:00 – 17:00"]]
+  },
+  "tema": { "primario": "#2F6B4F", "fondo": "#F7FAF7", "texto": "#17241D", "fuenteTitulos": "Lora", "fuenteTexto": "Inter", "radio": 16 },
+  "modulos": { "pagina": true, "menu": false, "registro": true },
+  "servicios": { "titulo": "Servicios", "intro": "", "lista": [
+    { "nombre": "Primera consulta", "descripcion": "Valoración y plan inicial. 60 minutos.", "precio": "$600" },
+    { "nombre": "Seguimiento", "descripcion": "Ajuste del plan. 30 minutos.", "precio": "$400" } ] },
+  "registro": {
+    "titulo": "Formulario de primera consulta", "intro": "Tus respuestas solo las ve la doctora.", "boton": "Enviar formulario",
+    "campos": [
+      { "id": "nombre", "etiqueta": "Nombre completo", "tipo": "texto", "requerido": true, "max": 80 },
+      { "id": "telefono", "etiqueta": "Teléfono", "tipo": "telefono", "requerido": true },
+      { "id": "nacimiento", "etiqueta": "Fecha de nacimiento", "tipo": "fecha" },
+      { "id": "objetivo", "etiqueta": "¿Cuál es tu objetivo?", "tipo": "opcion", "opciones": ["Bajar de peso", "Subir masa muscular", "Mejorar hábitos", "Otro"], "requerido": true },
+      { "id": "detalles", "etiqueta": "¿Algo que la doctora deba saber antes de tu consulta?", "tipo": "parrafo", "max": 500 },
+      { "id": "aviso", "etiqueta": "Leí y acepto el aviso de privacidad.", "tipo": "casilla", "requerido": true } ],
+    "privacidad": "Tus datos son confidenciales y se usan únicamente para tu atención.",
+    "exitoTitulo": "Formulario enviado", "exitoMensaje": "Gracias. Nos vemos en tu consulta.",
+    "boleto": { "activo": false }
+  },
+  "supabase": { "url": "", "clave": "", "tabla": "registros" }
+}
